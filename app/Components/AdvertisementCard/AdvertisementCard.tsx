@@ -1,8 +1,9 @@
+"use client";
 import React, { useContext } from "react";
-import { context } from "@/app/lib/utlis";
+import { context, Context } from "@/app/lib/utlis";
 
-const AdvertisementCard = () => {
-  const [state, setstate] = useContext(context);
+const AdvertisementCard = (props: any) => {
+  let state = props.state
   return (
     <div
       className={`w-max p-2 ${

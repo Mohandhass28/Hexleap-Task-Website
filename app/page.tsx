@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useRef, useState } from "react";
+import { createContext, useContext, useRef, useState } from "react";
 import AdvertisementCard from "./Components/AdvertisementCard/AdvertisementCard";
 import Card1 from "./Components/Card1/Card1";
 import { Card1Data } from "./lib/Data";
@@ -9,16 +9,18 @@ import { FaAngleLeft } from "react-icons/fa6";
 import Card2 from "./Components/Card2/Card2";
 import { FaRegSun } from "react-icons/fa";
 import { context } from "./lib/utlis";
-
 const Home = () => {
-  const cardcontainer = useRef(null);
+  const cardcontainer = useRef<HTMLDivElement>(null);
   const MoveRight = () => {
-    cardcontainer.current.scrollLeft += 220;
+    if(cardcontainer.current  !== null){
+      cardcontainer.current.scrollLeft += 220
+    }
   };
   const MoveLeft = () => {
-    cardcontainer.current.scrollLeft -= 220;
+    if(cardcontainer.current !== null){
+      cardcontainer.current.scrollLeft -= 220
+    }
   };
-
   const [state, setstate] = useState(false);
   const handle = () => {
     setstate(!state);
@@ -29,7 +31,7 @@ const Home = () => {
     : " text-[#ededee] cursor-pointer";
   const textcolor = state ? "text-[#292B32]" : " text-[#ededee]";
   return (
-    <context.Provider value={[state, setstate]}>
+
       <div className={background}>
         <div className="flex justify-center items-center pt-10 ">
           <div className="flex flex-col w-[80%] max-[500px]:items-center max-[500px]:justify-center">
@@ -51,9 +53,9 @@ const Home = () => {
             </div>
             <div className="flex gap-2 flex-wrap max-[500px]:items-center max-[500px]:justify-center">
               {Card1Data.map((data, id) => {
-                return <Card1 key={id} data={data} />;
+                return <Card1 key={id} data={data} state={state} setstate={setstate} />;
               })}
-              <AdvertisementCard />
+              <AdvertisementCard state={state} setstate={setstate} />
             </div>
             <div className="w-full flex items-center justify-center mt-5">
               <button className="bg-[#2C9CF0] pt-[10px] pr-[30px] pb-[10px] pl-[30px]">
@@ -98,8 +100,8 @@ const Home = () => {
               ref={cardcontainer}
               className="flex gap-4 w-[calc(120%_/_2)] object-fill transition ease-linear delay-700 max-[1000px]:w-[calc(80%_/_2)] overflow-hidden pb-5"
             >
-               {Card2Data.map((data, id) => {
-                return <Card2 key={id} data={data} />;
+              {Card2Data.map((data, id) => {
+                return <Card2 key={id} data={data} state={state} setstate={setstate}/>;
               })}
             </div>
             <div className="cursor-pointer absolute w-[30px] h-[45px] flex items-center justify-center text-[#2C9CF0] left-16 border-2 border-[#2C9CF0]">
@@ -111,7 +113,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-    </context.Provider>
   );
 };
 
